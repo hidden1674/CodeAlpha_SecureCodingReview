@@ -1,0 +1,52 @@
+SECURE CODING REVIEW
+
+Vulnerability 1: SQL Injection
+
+Description:
+The application directly concatenates user input into an SQL query.
+An attacker may manipulate the input and change the intended SQL query.
+
+Vulnerable Code:
+query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'"
+
+Risk:
+An attacker could potentially bypass authentication or access unintended database information.
+
+Recommendation:
+Use parameterized SQL queries instead of directly concatenating user input into the SQL statement.
+
+Vulnerability 2: Plain-Text Password Handling
+
+Description:
+The application stores and compares passwords as plain text.
+
+Risk:
+If the database is compromised, attackers could directly obtain user passwords.
+
+Recommendation:
+Passwords should never be stored as plain text.
+Use a strong password hashing algorithm such as Argon2, bcrypt, or scrypt.
+
+Vulnerability 3: Missing Input Validation
+
+Description:
+The application accepts username and password input without validating the input.
+
+Risk:
+Unexpected or malicious input may cause security problems or unexpected application behavior.
+
+Recommendation:
+Validate user input before processing it. Apply appropriate length, format, and character checks.
+Also use parameterized database queries to prevent SQL injection.
+
+Vulnerability 4: Lack of Secure Authentication Design
+
+Description:
+The application performs authentication by directly comparing the entered password with the password stored in the database.
+
+Risk:
+This design can expose credentials if the database is compromised and does not follow secure password storage practices.
+
+Recommendation:
+Use password hashing with a secure algorithm such as Argon2, bcrypt, or scrypt.
+During login, verify the entered password against the stored password hash instead of comparing plain-text passwords.
